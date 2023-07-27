@@ -1,25 +1,25 @@
 server {
-	listen 443 ssl;
-	server_name hojsong.42.fr www.hojsong.42.fr;
-	ssl_protocols  TLSv1.2 TLSv1.3;
+	listen 443 ssl; # 443 포트로 SSL 연결을 수신하는 서버 블록
+	server_name hojsong.42.fr www.hojsong.42.fr; # 호스트 이름 지정
+	ssl_protocols  TLSv1.2 TLSv1.3; # SSL 프로토콜 지원 설정
     
-	ssl_certificate /etc/ssl/hojsong.crt;
-	ssl_certificate_key /etc/ssl/hojsong.key;
+	ssl_certificate /etc/ssl/hojsong.crt;  # SSL 인증서 파일 경로
+	ssl_certificate_key /etc/ssl/hojsong.key;  # SSL 인증서 개인 키 파일 경로
 	
-	root /var/www;
+	root /var/www;	# 웹 루트 디렉토리
 
-	index index.php index.html index.htm;
+	index index.php index.html index.htm;	# 인덱스 파일 우선 순위
 
 
 	location / {
-		try_files $uri $uri/ =404;
+		try_files $uri $uri/ =404; 	# 요청된 파일 또는 디렉토리가 없는 경우 404 오류 반환
 	}
 
 	location ~ \.php$ {
-		include snippets/fastcgi-php.conf;
+		include snippets/fastcgi-php.conf;	# PHP FastCGI 설정 파일 인클루드
         
-		# fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+		# PHP FastCGI 설정
 		fastcgi_param SCRIPT_FILENAME /var/www/$fastcgi_script_name;
-		fastcgi_pass wordpress:9000;
+		fastcgi_pass wordpress:9000; # PHP-FPM 서버로 요청 전달
 	}
 }

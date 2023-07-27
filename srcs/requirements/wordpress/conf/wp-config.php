@@ -1,96 +1,41 @@
 <?php
-/**
- * The base configuration for WordPress
- *
- * The wp-config.php creation script uses this file during the installation.
- * You don't have to use the web site, you can copy this file to "wp-config.php"
- * and fill in the values.
- *
- * This file contains the following configurations:
- *
- * * Database settings
- * * Secret keys
- * * Database table prefix
- * * ABSPATH
- *
- * @link https://wordpress.org/support/article/editing-wp-config-php/
- *
- * @package WordPress
- */
+// 워드프레스 데이터베이스 연결 정보
+define( 'DB_NAME', getenv("WP_DB_NAME") );        // 데이터베이스 이름
+define( 'DB_USER', getenv("MARIADB_USER") );      // 데이터베이스 사용자 이름
+define( 'DB_PASSWORD', getenv("MARIADB_PWD") );   // 데이터베이스 사용자 비밀번호
+define( 'DB_HOST', getenv("DB_HOST") );           // 데이터베이스 호스트 주소
+define( 'DB_CHARSET', 'utf8' );                   // 데이터베이스 문자셋
+define( 'DB_COLLATE', '' );                       // 데이터베이스 정렬
 
-// ** Database settings - You can get this info from your web host ** //
-/** The name of the database for WordPress */
-define( 'DB_NAME', getenv("WP_DB_NAME") );
+// 보안 키
+define( 'AUTH_KEY',         'put your unique phrase here' );        // 인증 키
+define( 'SECURE_AUTH_KEY',  'put your unique phrase here' );        // 보안 인증 키
+define( 'LOGGED_IN_KEY',    'put your unique phrase here' );        // 로그인 키
+define( 'NONCE_KEY',        'put your unique phrase here' );        // 무작위 키
+define( 'AUTH_SALT',        'put your unique phrase here' );        // 인증 솔트
+define( 'SECURE_AUTH_SALT', 'put your unique phrase here' );        // 보안 인증 솔트
+define( 'LOGGED_IN_SALT',   'put your unique phrase here' );        // 로그인 솔트
+define( 'NONCE_SALT',       'put your unique phrase here' );        // 무작위 솔트
 
-/** Database username */
-define( 'DB_USER', getenv("MARIADB_USER") );
+$table_prefix = 'wp_';           // 워드프레스 데이터베이스 테이블 접두사
 
-/** Database password */
-define( 'DB_PASSWORD', getenv("MARIADB_PWD") );
+define( 'WP_DEBUG', true );       // 디버그 모드 활성화
 
-/** Database hostname */
-define( 'DB_HOST', getenv("DB_HOST") );
-
-/** Database charset to use in creating database tables. */
-define( 'DB_CHARSET', 'utf8' );
-
-/** The database collate type. Don't change this if in doubt. */
-define( 'DB_COLLATE', '' );
-
-/**#@+
- * Authentication unique keys and salts.
- *
- * Change these to different unique phrases! You can generate these using
- * the {@link https://api.wordpress.org/secret-key/1.1/salt/ WordPress.org secret-key service}.
- *
- * You can change these at any point in time to invalidate all existing cookies.
- * This will force all users to have to log in again.
- *
- * @since 2.6.0
- */
-define( 'AUTH_KEY',         'put your unique phrase here' );
-define( 'SECURE_AUTH_KEY',  'put your unique phrase here' );
-define( 'LOGGED_IN_KEY',    'put your unique phrase here' );
-define( 'NONCE_KEY',        'put your unique phrase here' );
-define( 'AUTH_SALT',        'put your unique phrase here' );
-define( 'SECURE_AUTH_SALT', 'put your unique phrase here' );
-define( 'LOGGED_IN_SALT',   'put your unique phrase here' );
-define( 'NONCE_SALT',       'put your unique phrase here' );
-
-/**#@-*/
-
-/**
- * WordPress database table prefix.
- *
- * You can have multiple installations in one database if you give each
- * a unique prefix. Only numbers, letters, and underscores please!
- */
-$table_prefix = 'wp_';
-
-/**
- * For developers: WordPress debugging mode.
- *
- * Change this to true to enable the display of notices during development.
- * It is strongly recommended that plugin and theme developers use WP_DEBUG
- * in their development environments.
- *
- * For information on other constants that can be used for debugging,
- * visit the documentation.
- *
- * @link https://wordpress.org/support/article/debugging-in-wordpress/
- */
-define( 'WP_DEBUG', true );
-
-/* Add any custom values between this line and the "stop editing" line. */
-
-
-
-/* That's all, stop editing! Happy publishing. */
-
-/** Absolute path to the WordPress directory. */
 if ( ! defined( 'ABSPATH' ) ) {
-	define( 'ABSPATH', __DIR__ . '/' );
+	define( 'ABSPATH', __DIR__ . '/' );   // 워드프레스 파일 디렉토리 절대 경로 설정
 }
 
-/** Sets up WordPress vars and included files. */
-require_once ABSPATH . 'wp-settings.php';
+require_once ABSPATH . 'wp-settings.php';   // 워드프레스 설정 로드
+
+// 이것을 사용하면 wordpress에서 이상이 생겨서인지 nginx에서도 error가 나온다.
+// // 댓글을 자동으로 승인
+// define('WP_POST_REVISIONS', false); // 이 줄은 이미 파일에 존재하는 경우 무시해도 됩니다.
+// define('AUTOMATIC_UPDATER_DISABLED', true); // 이 줄은 이미 파일에 존재하는 경우 무시해도 됩니다.
+// define('DISALLOW_FILE_EDIT', true); // 이 줄은 이미 파일에 존재하는 경우 무시해도 됩니다.
+
+// // 아래 코드를 추가하여 댓글을 자동으로 승인합니다.
+// function auto_approve_comments( $data ) {
+//     $data['comment_approved'] = 1;
+//     return $data;
+// }
+// add_filter( 'preprocess_comment', 'auto_approve_comments' );
