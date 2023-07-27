@@ -24,3 +24,10 @@ sudo chmod +x /usr/local/bin/docker-compose
 
 sudo apt update
 sudo apt install make
+
+echo "nameserver 8.8.8.8" | sudo tee -a /etc/resolv.conf
+echo "nameserver 8.8.4.4" | sudo tee -a /etc/resolv.conf
+
+sudo mkdir /var/www
+$ sudo chown -R www-data:www-data /var/www
+$ sudo chmod -R 755 /var/www
